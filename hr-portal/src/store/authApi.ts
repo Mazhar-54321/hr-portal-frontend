@@ -17,6 +17,12 @@ interface LoginResponse {
   user: User;
 }
 
+interface RegistrationPayload {
+  username: string;
+  email: string;
+  password: string;
+}
+
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
@@ -24,6 +30,13 @@ export const authApi = createApi({
     credentials: "include",
   }),
   endpoints: (builder) => ({
+    register: builder.mutation<User, RegistrationPayload>({
+      query: (body) => ({
+        url: "/users/register",
+        method: "POST",
+        body,
+      }),
+    }),
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (body) => ({
         url: "/users/login",
@@ -34,4 +47,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useRegisterMutation,useLoginMutation } = authApi;
