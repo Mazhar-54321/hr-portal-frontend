@@ -1,13 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Register from "./pages/Registration";
-
 import './App.css'
+import MainLayout from "./pages/MainLayout";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<MainLayout />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </Router>
