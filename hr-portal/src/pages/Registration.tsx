@@ -1,15 +1,13 @@
 import { useFormik } from "formik";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import { useRegisterMutation } from "../store/authApi";
-import { useNavigate } from "react-router-dom";
 import { registrationSchema } from "../zod/Registration";
 import { z } from "zod";
 
 type RegisterFormValues = z.infer<typeof registrationSchema>;
 
-const Register = () => {
+const Register = (props:any) => {
   const [registerUser, { isLoading }] = useRegisterMutation();
-  const navigate = useNavigate();
 
   const formik = useFormik<RegisterFormValues>({
     initialValues: { username: "", email: "", password: "" },
@@ -31,7 +29,7 @@ const Register = () => {
     onSubmit: async (values) => {
       try {
         await registerUser(values).unwrap();
-        navigate("/login");
+        props.onRegister();
       } catch (err: any) {
         alert(err.data?.message || "Registration failed");
       }
