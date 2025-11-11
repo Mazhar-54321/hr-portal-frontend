@@ -1,15 +1,36 @@
 import { useFormik } from "formik";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
-import { useLoginMutation } from "../store/authApi";
+import { useLoginMutation, useLogoutMutation } from "../store/authApi";
 import { useNavigate } from "react-router-dom";
 import { loginSchema } from "../zod/Login";
+
 import { z } from "zod";
+import { useDispatch } from "react-redux";
+import { logout, setCredentials } from "../store/authSlice";
+import { useEffect } from "react";
+import { useAppSelector } from "../store/hook";
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const Login = () => {
   const [loginUser, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
+const dispatch = useDispatch();
+const user = useAppSelector((state) => state.auth.user);
+  const [logoutApi, { isLoading: isLoggingOut }] = useLogoutMutation();
 
+  useEffect(() => {
+     if(user){
+      const handleLogout = async () => {
+          try {
+            await logoutApi().unwrap();
+            dispatch(logout());
+          } catch (err) {
+            console.error("Logout failed", err);
+          }
+        };
+        handleLogout();
+     }
+  }, [user])
   const formik = useFormik<LoginFormValues>({
     initialValues: { email: "", password: "" },
     validate: (values) => {
@@ -26,7 +47,11 @@ const Login = () => {
     },
     onSubmit: async (values) => {
       try {
-        await loginUser(values).unwrap();
+        const response = await loginUser(values).unwrap();
+         dispatch(setCredentials({ 
+        user: response.user, 
+        accessToken: response.accessToken 
+      }));
         navigate("/dashboard");
       } catch (err: any) {
         alert(err.data?.message || "Login failed");
