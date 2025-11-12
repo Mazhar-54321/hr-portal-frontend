@@ -38,9 +38,12 @@ const user = useAppSelector((state) => state.auth.user);
         loginSchema.parse(values);
         return {};
       } catch (err: any) {
+         const zodError = err as z.ZodError;
         const errors: Record<string, string> = {};
-        err.errors.forEach((e: any) => {
-          if (e.path && e.path[0]) errors[e.path[0]] = e.message;
+        zodError.issues.forEach((issue) => {
+          if (issue.path && issue.path[0]) {
+            errors[issue.path[0]] = issue.message;
+          }
         });
         return errors;
       }

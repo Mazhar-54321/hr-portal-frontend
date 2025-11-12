@@ -55,7 +55,7 @@ export const employeeApi = createApi({
       query: ({ id, data }) => ({
         url: `/employees/${id}`,
         method: "PUT",
-        body: data,
+        data,
       }),
       invalidatesTags: ["Employees"],
     }),
