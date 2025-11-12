@@ -10,13 +10,13 @@ const api = axios.create({
 
 export const axiosBaseQuery =
   (): BaseQueryFn<any, unknown, unknown> =>
-  async ({ url, method = "get", data }) => {
+  async ({ url, method = "get", data,params }) => {
     try {
       const token = store.getState().auth.accessToken;
       const headers: any = {};
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
-      const res = await api({ url, method, data, headers });
+      const res = await api({ url, method, data,params, headers });
       return { data: res.data };
     } catch (error: any) {
       if (error.response?.status === 401 && !error.config._retry) {
