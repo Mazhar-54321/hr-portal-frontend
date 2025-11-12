@@ -1,4 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { axiosBaseQuery } from "../components/axiosBaseQuery";
 
 interface LoginRequest {
   email: string;
@@ -25,33 +26,30 @@ interface RegistrationPayload {
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_BASE_URL,
-    credentials: "include",
-  }),
+  baseQuery: axiosBaseQuery(),
   endpoints: (builder) => ({
     register: builder.mutation<User, RegistrationPayload>({
       query: (body) => ({
         url: "/users/register",
         method: "POST",
-        body,
+        data:body,
       }),
     }),
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (body) => ({
         url: "/users/login",
         method: "POST",
-        body,
+        data:body,
       }),
     }),
-logout: builder.mutation<void, void>({
+    logout: builder.mutation<void, void>({
       query: () => ({
         url: "/users/logout",
         method: "POST",
       }),
     }),
   }),
-  
 });
 
-export const { useRegisterMutation,useLoginMutation,useLogoutMutation } = authApi;
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation } =
+  authApi;

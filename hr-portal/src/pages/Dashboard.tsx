@@ -76,7 +76,7 @@ const Dashboard = () => {
     try {
       await logoutApi().unwrap();
       dispatch(logout());
-      navigate("/login");
+      navigate("/login",{replace:true});
     } catch (err) {
       console.error("Logout failed", err);
     }
