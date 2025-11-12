@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import { useGetEmployeesQuery, useDeleteEmployeeMutation } from "../store/employeeApi";
 import EditEmployeeModal from "./EditEmployeeModal";
-import type { EmployeeFormValues } from "../zod/employee";
+import type { EmployeeFormValues } from "../zod/Employee";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/authSlice";
@@ -95,7 +95,6 @@ const Dashboard = () => {
           currentUserRole={user?.role}
           employeeData={selectedEmployeeDetails}
           onClose={() => setOpenEditModal(false)}
-          onSuccess={() => setOpenEditModal(false)}
           open={openEditModal}
         />
       )}
