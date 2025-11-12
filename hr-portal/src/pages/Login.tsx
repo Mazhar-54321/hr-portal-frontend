@@ -5,18 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { loginSchema } from "../zod/Login";
 
 import { z } from "zod";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout, setCredentials } from "../store/authSlice";
 import { useEffect } from "react";
-import { useAppSelector } from "../store/hook";
+import type { RootState } from "../store/store";
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const Login = () => {
   const [loginUser, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
 const dispatch = useDispatch();
-const user = useAppSelector((state) => state.auth.user);
-  const [logoutApi, { isLoading: isLoggingOut }] = useLogoutMutation();
+const user = useSelector((state:RootState) => state.auth.user);
+  const [logoutApi] = useLogoutMutation();
 
   useEffect(() => {
      if(user){

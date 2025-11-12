@@ -16,8 +16,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useAddEmployeeMutation } from "../store/employeeApi";
 import { employeeSchema } from "../zod/employee";
 import type { z } from "zod";
-import { useAppSelector } from "../store/hook";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 
 
 type EmployeeFormValues = z.infer<typeof employeeSchema>;
@@ -26,7 +27,7 @@ type EmployeeFormValues = z.infer<typeof employeeSchema>;
 
 const Employee = () => {
   const [createEmployee, { isLoading }] = useAddEmployeeMutation();
-const user = useAppSelector((state) => state.auth.user);
+const user = useSelector((state:RootState) => state.auth.user);
   const navigate = useNavigate();
 
   const currentUserRole = user?.role;

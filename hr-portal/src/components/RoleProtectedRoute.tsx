@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAppSelector } from "../store/hook";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 
 interface Props {
   allowedRoles: string[];
@@ -8,7 +9,7 @@ interface Props {
 }
 
 const RoleProtectedRoute: React.FC<Props> = ({ allowedRoles, children }) => {
-  const user = useAppSelector((state) => state.auth.user);
+  const user = useSelector((state:RootState) => state.auth.user);
 
   if (!user) {
     return <Navigate to="/login" replace />;

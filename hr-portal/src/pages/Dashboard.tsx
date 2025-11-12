@@ -20,17 +20,17 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { useAppSelector } from "../store/hook";
 import { useGetEmployeesQuery, useDeleteEmployeeMutation } from "../store/employeeApi";
 import EditEmployeeModal from "./EditEmployeeModal";
 import type { EmployeeFormValues } from "../zod/employee";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/authSlice";
 import { useLogoutMutation } from "../store/authApi";
+import type { RootState } from "../store/store";
 
 const Dashboard = () => {
-  const user = useAppSelector((state) => state.auth.user);
+  const user = useSelector((state:RootState) => state.auth.user);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
