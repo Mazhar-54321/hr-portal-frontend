@@ -9,15 +9,18 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RoleProtectedRoute from "./components/RoleProtectedRoute";
 import Employee from "./pages/Employee";
+import ProtectedAuthRoute from "./components/ProtectedAuthRoute";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Welcome />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+        <Route element={<ProtectedAuthRoute />}>
+        <Route index element={<Welcome />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+      </Route>
 
           <Route
             path="dashboard"
